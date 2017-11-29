@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {ClipLoader} from 'react-spinners'; 
 import Categorie from './categorie';
-import { CategorieContainer } from './categories.styled';
 import { Offcanvas } from '../offcanvas/index';
 import { SpinnerWrapper } from '../app/app.styled'; 
 

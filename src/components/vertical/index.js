@@ -1,7 +1,4 @@
-import React, { Component } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import API from '../../utils/api';
-import Categories from '../categories';
+import React from 'react';
 import { VerticalContainer } from './vertical.styled';
 
 const Vertical = (props) => {

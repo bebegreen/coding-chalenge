@@ -61,7 +61,7 @@ class App extends Component {
   }
 
   toggleCategories(id) {
-    const { categoriesMenuOpen, coursesMenuOpen } = this.state;
+    const { categoriesMenuOpen } = this.state;
     // if menu is opening get categories
     !categoriesMenuOpen && this.getCategories(id);
     this.setState({ categoriesMenuOpen: !categoriesMenuOpen, coursesMenuOpen: false });
