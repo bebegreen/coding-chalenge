@@ -1,0 +1,18 @@
+[
+  {
+    "Id": 3,
+    "Name": "Music", 
+    "imageUrl": "http://s3-us-west-2.amazonaws.com/collectively-website/blog/wommy-awards-influencer-award/MT16.jpg?mtime=20170302003218"
+  }, 
+  {
+    "Id": 1,
+    "Name": "Health & Fitness", 
+    "imageUrl": "https://dck1n1namb8h9.cloudfront.net/media/cache/4e/6f/4e6f28e2233d0561c2429ead2dfe552f.jpg"
+  },  
+  {
+    "Id": 2,
+    "Name": "Business", 
+    "imageUrl": "https://www.web-savvy-marketing.com/wp-content/uploads/2014/06/Small-Business.jpg"
+  }
+  
+]
