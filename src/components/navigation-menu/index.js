@@ -12,7 +12,7 @@ import {
 
 const NavigationMenu = (props) => {
 
-  const { list, type, title, loading, itemClickHandler } = props;
+  const { list, type, title, loading, itemClickHandler, closeHandler } = props;
 
   return (
 
@@ -25,7 +25,7 @@ const NavigationMenu = (props) => {
         {title}
       </Title>
 
-      <CloseBtn onClick={props.closeHandler}>
+      <CloseBtn onClick={closeHandler}>
         {type === 'nested' ? <Icon>&larr;</Icon> : <Icon> &#x274C;</Icon>}
       </CloseBtn>
       {
