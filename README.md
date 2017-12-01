@@ -18,6 +18,8 @@ I used styled components for styling which I find a lot of joy in and it gives a
 
 One of the biggest codding chalenges I've ever had was to make an algorithem for a online realtime battleship game where the ships must be placed randomly on a board with out over-riding each other and leaving a space of at least one cell i between.
 
+http://playbattleship.xyz/
+
 here it is:  
 
        generateRandomPositions() {
