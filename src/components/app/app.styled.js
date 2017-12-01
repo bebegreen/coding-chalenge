@@ -36,13 +36,3 @@ export const SpinnerWrapper = styled.div`
   justify-content: center;  
   margin: 50px 0; 
 `; 
-
-export const MenuItem = styled.div`
-  padding: 1em; 
-  background: rgba(0, 0, 0, 0.5); 
-  cursor: pointer;
-  transition: all 0.35s ; 
-  &:hover { 
-    background: rgba(0, 0, 0, 0.7); 
-  } 
-`; 

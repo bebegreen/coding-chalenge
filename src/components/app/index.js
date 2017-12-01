@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { BarLoader } from 'react-spinners';
-import Categories from '../categories';
-import Courses from '../courses';
 import API from '../../utils/api';
 import Vertical from '../vertical';
+import NavigationMenu from '../navigation-menu';
 import Header from '../Header';
 import { GRID_AREAS } from '../../constants'
 import { VerticalsContainer, Main, ShadowBody, SpinnerWrapper } from './app.styled';
@@ -14,6 +13,7 @@ class App extends Component {
     super();
     this.toggleCategories = this.toggleCategories.bind(this);
     this.toggleCourses = this.toggleCourses.bind(this);
+    this.handleCategorieClick = this.handleCategorieClick.bind(this); 
   }
   state = {
     loadingVerticals: false,
@@ -66,10 +66,15 @@ class App extends Component {
     !categoriesMenuOpen && this.getCategories(id);
     this.setState({ categoriesMenuOpen: !categoriesMenuOpen, coursesMenuOpen: false });
   }
-  toggleCourses(id) {
+  
+  handleCategorieClick(id) {
+    this.getCourses(id);
+    this.toggleCourses(true)
+  }
+  
+  toggleCourses(bool) { 
     const { coursesMenuOpen } = this.state;
-    !coursesMenuOpen && this.getCourses(id);
-    this.setState({ coursesMenuOpen: !coursesMenuOpen });
+    this.setState({ coursesMenuOpen: bool });
   }
 
   render() {
@@ -115,27 +120,32 @@ class App extends Component {
           }
           {
             <ReactCSSTransitionGroup
-              transitionName="fade"
+              transitionName="slide"
               transitionEnterTimeout={500}
               transitionLeaveTimeout={500}
             >
               {
                 categoriesMenuOpen &&
-                <Categories
-                  categorieClickHandler={this.toggleCourses}
+                <NavigationMenu
+                  list={displayedCategories}
+                  itemClickHandler={this.handleCategorieClick}
                   closeHandler={this.toggleCategories}
-                  categories={displayedCategories}
                   loading={loadingCategories}
+                  title={'categories'}
                 />
               }
               {
                 coursesMenuOpen &&
-                <Courses
-                  courses={displayedCourses}
-                  closeHandler={this.toggleCourses}
+                <NavigationMenu
+                  list={displayedCourses}
+                  itemClickHandler={() => alert('navigate to course page...')}
+                  closeHandler={() => this.toggleCourses(false)}
                   loading={loadingCourses}
+                  title={'courses'}
+                  type={'nested'}
                 />
               }
+
             </ReactCSSTransitionGroup>
           }
         </Main>
