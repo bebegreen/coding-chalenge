@@ -138,7 +138,7 @@ class App extends Component {
                 coursesMenuOpen &&
                 <NavigationMenu
                   list={displayedCourses}
-                  itemClickHandler={() => alert('navigate to course page...')}
+                  itemClickHandler={(id) => alert(`navigate to course #${id}...`)}
                   closeHandler={() => this.toggleCourses(false)}
                   loading={loadingCourses}
                   title={'courses'}
