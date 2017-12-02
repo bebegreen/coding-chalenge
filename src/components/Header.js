@@ -8,6 +8,9 @@ const HeaderContainer = styled.header`
   background: #333333; 
   align-items: center; 
   padding: 0 20px; 
+  font-family: 'Fredoka One', cursive;
+  color: white; 
+  justify-content: space-between; 
 `; 
 
 const Logo = styled.img`
@@ -17,7 +20,8 @@ const Logo = styled.img`
 
 const Header = () => (
   <HeaderContainer>
-    <Logo src={'https://passion.io/assets/passion-logo-4e5901772a222fd6c982560e8a7cda71.svg'} />
+    <h1>Beautiful logo</h1>
+    <p>login</p> 
   </HeaderContainer>
 ) 
 
