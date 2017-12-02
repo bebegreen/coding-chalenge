@@ -1,4 +1,4 @@
-# Coding Chalenge by Binyamin Green
+# Coding Challenge by Binyamin Green
     yarn install -> yarn start -> localhost:8000
 
 At the solution I provided here I tried to put focus and keeping components as dumb as possible making performance and scalability boost, in addition to a "mobile-first" approach. 
