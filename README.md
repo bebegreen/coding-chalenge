@@ -1,5 +1,6 @@
 # Coding Chalenge by Binyamin Green
     yarn install -> yarn start -> localhost:8000
+or go to http://ec2-18-221-38-163.us-east-2.compute.amazonaws.com:8000/
 
 At the solution I provided here I tried to put focus and keeping components as dumb as possible making performance and scalability boost, in addition to a "mobile-first" approach. 
 
