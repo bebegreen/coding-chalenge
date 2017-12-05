@@ -29,7 +29,8 @@ class App extends Component {
     displayedCategories: null,
     displayedCourses: null,
     displayedLessons: null,
-    currentCourseId: null
+    currentCourseId: null, 
+    currentCategorieId: null
   }
 
   async componentWillMount() {
@@ -61,8 +62,15 @@ class App extends Component {
   }
 
   handleCategorieClick(id) {
-    this.getFromServer(id, 'Courses', API.getCourses); 
-    this.toggleCourses(true); 
+    const { currentCategorieId } = this.state; 
+    if (!currentCategorieId || id !== currentCategorieId) { 
+      this.getFromServer(id, 'Courses', API.getCourses); 
+      this.setState({ currentCategorieId: id })
+      this.toggleCourses(true); 
+    } else { 
+      this.toggleCourses(false); 
+      this.setState({currentCategorieId: null})
+    }
   }
 
   handleCourseClick(id) {
@@ -79,7 +87,7 @@ class App extends Component {
   render() {
     const { loadingVerticals, error, displayedVerticals, categoriesMenuOpen,
       displayedCategories, coursesMenuOpen, displayedCourses,
-      loadingCategories, loadingCourses,
+      loadingCategories, loadingCourses, currentCategorieId,
       displayedLessons, currentCourseId } = this.state;
 
     return (
@@ -133,6 +141,7 @@ class App extends Component {
                 closeHandler={this.toggleCategories}
                 loading={loadingCategories}
                 title={'categories'}
+                clickedItemId={currentCategorieId}
               />
             }
             {

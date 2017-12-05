@@ -55,12 +55,13 @@ const NavigationMenu = (props) => {
 
                     {item.Name}
 
-                    {
-                      nested &&
-                      <DropDownIcon clicked={clicked}>
-                        <i className="fa fa-caret-down" aria-hidden="true"></i>
-                      </DropDownIcon>
-                    }
+                    <DropDownIcon clicked={clicked}>
+                      {
+                        nested ?  
+                          <i className="fa fa-caret-down" aria-hidden="true"></i>
+                          : <i className="fa fa-caret-right" aria-hidden="true"></i>  
+                    }  
+                    </DropDownIcon>
 
                   </ItemName>
 
