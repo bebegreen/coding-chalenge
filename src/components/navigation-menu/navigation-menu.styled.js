@@ -61,6 +61,13 @@ export const NestedItem = styled.li`
   display: flex; 
   justify-content: space-between; 
   align-content: center; 
+  transition: all 0.5s; 
+  &:first-child { 
+    margin-top: 1em; 
+  }
+  &:hover { 
+    background: lightgrey; 
+  }
 `; 
 
 export const LessonName = styled.p`
