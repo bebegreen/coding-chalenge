@@ -52,7 +52,6 @@ class App extends Component {
   toggleCategories(id) {
     const { categoriesMenuOpen } = this.state;
     !categoriesMenuOpen && this.getFromServer(id, 'Categories', API.getCategories);
-    
     this.setState({ categoriesMenuOpen: !categoriesMenuOpen, coursesMenuOpen: false });
   }
 
