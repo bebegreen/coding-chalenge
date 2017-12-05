@@ -1,6 +1,5 @@
 import React from 'react';
 import { ClipLoader } from 'react-spinners';
-import { UnmountClosed } from 'react-collapse';
 import {
   NavigationMenuContainer,
   CloseBtn,
@@ -9,16 +8,15 @@ import {
   Title,
   Icon,
   List,
-  NestedItem,
-  LessonName,
-  LessonLength
+  ItemName,
+  DropDownIcon
 } from './navigation-menu.styled';
 
 const NavigationMenu = (props) => {
-
   const { list, type, title, loading,
-    itemClickHandler, closeHandler,
-    courseVideosOpen, currentCourseId, nestedItems } = props;
+    itemClickHandler, closeHandler, clickedItemId } = props;
+
+  const nested = type === 'nested';
 
   return (
 
@@ -31,7 +29,7 @@ const NavigationMenu = (props) => {
       </Title>
 
       <CloseBtn onClick={closeHandler}>
-        {type === 'nested' ? <Icon>&larr;</Icon> : <Icon> &#x274C;</Icon>}
+        {nested ? <Icon>&larr;</Icon> : <Icon> &#x274C;</Icon>}
       </CloseBtn>
 
       {
@@ -45,30 +43,37 @@ const NavigationMenu = (props) => {
         !loading &&
         <List>
           {
-            list.map(item => (
-              <MenuItem
-                key={item.Id}
-                onClick={() => itemClickHandler(item.Id)}
-              >
-                {item.Name}
+            list.map(item => {
+              const clicked = item.Id === clickedItemId;
+              return (
+                <MenuItem
+                  key={item.Id}
+                  onClick={() => itemClickHandler(item.Id)}
+                >
 
-                <UnmountClosed isOpened={item.Id === currentCourseId}>
+                  <ItemName>
+
+                    {item.Name}
+
+                    {
+                      nested &&
+                      <DropDownIcon clicked={clicked}>
+                        <i className="fa fa-caret-down" aria-hidden="true"></i>
+                      </DropDownIcon>
+                    }
+
+                  </ItemName>
+
                   {
-                    nestedItems &&
-                    nestedItems.map(({ Name, length }) => (
-                      <NestedItem onClick={(e) => { e.stopPropagation() }}>
-                        <LessonName>
-                          <i className="fa fa-play-circle-o" aria-hidden="true" style={{ marginRight: '5px' }}></i>
-                          {Name}
-                        </LessonName>
-                        <LessonLength>{length}</LessonLength>
-                      </NestedItem>
-                    ))
+                    // if it's a nested menu, render children and pass props 
+                    nested &&
+                    React.cloneElement(props.children,
+                      { isOpened: clicked })
                   }
-                </UnmountClosed>
 
-              </MenuItem>)
-            )
+                </MenuItem>
+              )
+            })
           }
         </List>
       }

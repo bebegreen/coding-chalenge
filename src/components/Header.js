@@ -13,10 +13,6 @@ const HeaderContainer = styled.header`
   justify-content: space-between; 
 `; 
 
-const Logo = styled.img`
-  width: 100px; 
-  height: 100px; 
-`; 
 
 const Header = () => (
   <HeaderContainer>

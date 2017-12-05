@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { BarLoader } from 'react-spinners';
-import API from '../../utils/api';
+import API from '../../services/api';
 import Vertical from '../vertical';
+import Lessons from '../lessons';
 import NavigationMenu from '../navigation-menu';
 import Header from '../Header';
 import { GRID_AREAS } from '../../constants'
@@ -27,7 +28,6 @@ class App extends Component {
     displayedLessons: null,
     categoriesMenuOpen: false,
     coursesMenuOpen: false,
-    courseLessonsOpen: false,
     currentCourseId: null
   }
 
@@ -67,9 +67,7 @@ class App extends Component {
   async getLessons(id) {
     try {
       const displayedLessons = await API.getCourseLessons(id);
-      this.setState({ displayedLessons }, () => {
-        console.log(this.state);
-      })
+      this.setState({ displayedLessons });
     }
     catch (err) {
       this.setState({ error: true });
@@ -83,23 +81,24 @@ class App extends Component {
     this.setState({ categoriesMenuOpen: !categoriesMenuOpen, coursesMenuOpen: false });
   }
 
-  handleCategorieClick(id) {
-    this.getCourses(id);
-    this.toggleCourses(true)
-  }
-
   toggleCourses(bool) {
     const { coursesMenuOpen } = this.state;
     this.setState({ coursesMenuOpen: bool });
   }
 
+  handleCategorieClick(id) {
+    this.getCourses(id);
+    this.toggleCourses(true)
+  }
+
   handleCourseClick(id) {
     const { currentCourseId } = this.state;
-    if (!currentCourseId || id !== currentCourseId) {  
+    // lessons of course are not opened and a different course was clicked
+    if (!currentCourseId || id !== currentCourseId) {
       this.getLessons(id);
-      this.setState({ currentCourseId: id, courseLessonsOpen: true });
-    } else { 
-      this.setState({ currentCourseId: null }); 
+      this.setState({ currentCourseId: id });
+    } else {
+      this.setState({ currentCourseId: null });
     }
   }
 
@@ -107,7 +106,8 @@ class App extends Component {
     const { loadingVerticals, error, verticals, categoriesMenuOpen,
       displayedCategories, coursesMenuOpen, displayedCourses,
       loadingCategories, loadingCourses,
-      displayedLessons, courseLessonsOpen, currentCourseId } = this.state;
+      displayedLessons, currentCourseId } = this.state;
+    
     return (
       <div>
         <Header />
@@ -170,10 +170,10 @@ class App extends Component {
                 loading={loadingCourses}
                 title={'courses'}
                 type={'nested'}
-                nestedItems={displayedLessons}
-                courseLessonsOpen={courseLessonsOpen}
-                currentCourseId={currentCourseId}
-              />
+                clickedItemId={currentCourseId}
+              >
+                <Lessons lessons={displayedLessons} />
+              </NavigationMenu>
             }
 
           </ReactCSSTransitionGroup>

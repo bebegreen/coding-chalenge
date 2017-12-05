@@ -1,4 +1,4 @@
-import styled from 'styled-components'; 
+import styled from 'styled-components';
 
 export const NavigationMenuContainer = styled.div`
   background: ${({ type }) => type === 'nested' ? '#8f00ff' : '#008061'}; 
@@ -29,55 +29,40 @@ export const SpinnerWrapper = styled.div`
   display: flex; 
   justify-content: center;  
   margin: 50px 0; 
-`; 
+`;
 
 export const MenuItem = styled.li`
-  padding: 1em; 
+
   background: rgba(0, 0, 0, 0.5); 
   cursor: pointer;
   transition: all 0.35s ; 
   &:hover { 
     background: rgba(0, 0, 0, 0.7); 
   } 
-`; 
+`;
+
+export const ItemName = styled.p`
+  padding: 1em; 
+  margin: 0; 
+  display: flex; 
+  justify-content: space-between; 
+`;
 
 export const Title = styled.h1`
   padding-left: 1rem; 
-`; 
+`;
 
 export const Icon = styled.i`
   font-style: normal; 
-`; 
+`;
 
 export const List = styled.ul`
   list-style: none; 
   padding: 0; 
-`; 
+`;
 
-export const NestedItem = styled.li`
-  padding: 1em; 
-  background: white; 
-  color: gray; 
-  display: flex; 
-  justify-content: space-between; 
-  align-content: center; 
-  transition: all 0.5s; 
-  &:first-child { 
-    margin-top: 1em; 
-  }
-  &:hover { 
-    background: lightgrey; 
-  }
-`; 
 
-export const LessonName = styled.p`
-  margin: 0; 
-  font-weight: bold; 
-`; 
-
-export const LessonLength = styled.p`
-  margin: 0; 
-  &:after { 
-    content: ' min'; 
-  }
+export const DropDownIcon = styled.span`
+  transition: all 0.6s; 
+  transform: ${({ clicked }) => clicked ? `rotate(180deg)` : `rotate(0)`}; 
 `; 
