@@ -33,7 +33,7 @@ class App extends Component {
     currentCategorieId: null
   }
 
-  async componentWillMount() {
+  componentWillMount() {
     // get all verticals no need for specific id
     this.getFromServer(null, 'Verticals', API.getVerticals)
   }
