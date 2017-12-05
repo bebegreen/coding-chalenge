@@ -56,7 +56,7 @@ const NavigationMenu = (props) => {
                   {
                     nestedItems &&
                     nestedItems.map(({ Name, length }) => (
-                      <NestedItem>
+                      <NestedItem onClick={(e) => { e.stopPropagation() }}>
                         <LessonName>
                           <i className="fa fa-play-circle-o" aria-hidden="true" style={{ marginRight: '5px' }}></i>
                           {Name}
