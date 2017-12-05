@@ -13,7 +13,8 @@ class App extends Component {
     super();
     this.toggleCategories = this.toggleCategories.bind(this);
     this.toggleCourses = this.toggleCourses.bind(this);
-    this.handleCategorieClick = this.handleCategorieClick.bind(this); 
+    this.handleCategorieClick = this.handleCategorieClick.bind(this);
+    this.handleCourseClick = this.handleCourseClick.bind(this);
   }
   state = {
     loadingVerticals: false,
@@ -23,8 +24,11 @@ class App extends Component {
     verticals: null,
     displayedCategories: null,
     displayedCourses: null,
+    displayedLessons: null,
     categoriesMenuOpen: false,
-    coursesMenuOpen: false
+    coursesMenuOpen: false,
+    courseLessonsOpen: false,
+    currentCourseId: null
   }
 
   async componentWillMount() {
@@ -60,27 +64,50 @@ class App extends Component {
     }
   }
 
+  async getLessons(id) {
+    try {
+      const displayedLessons = await API.getCourseLessons(id);
+      this.setState({ displayedLessons }, () => {
+        console.log(this.state);
+      })
+    }
+    catch (err) {
+      this.setState({ error: true });
+    }
+  }
+
   toggleCategories(id) {
     const { categoriesMenuOpen } = this.state;
     // if menu is opening get categories
     !categoriesMenuOpen && this.getCategories(id);
     this.setState({ categoriesMenuOpen: !categoriesMenuOpen, coursesMenuOpen: false });
   }
-  
+
   handleCategorieClick(id) {
     this.getCourses(id);
     this.toggleCourses(true)
   }
-  
-  toggleCourses(bool) { 
+
+  toggleCourses(bool) {
     const { coursesMenuOpen } = this.state;
     this.setState({ coursesMenuOpen: bool });
+  }
+
+  handleCourseClick(id) {
+    const { currentCourseId } = this.state;
+    if (!currentCourseId || id !== currentCourseId) {  
+      this.getLessons(id);
+      this.setState({ currentCourseId: id, courseLessonsOpen: true });
+    } else { 
+      this.setState({ currentCourseId: null }); 
+    }
   }
 
   render() {
     const { loadingVerticals, error, verticals, categoriesMenuOpen,
       displayedCategories, coursesMenuOpen, displayedCourses,
-      loadingCategories, loadingCourses } = this.state;
+      loadingCategories, loadingCourses,
+      displayedLessons, courseLessonsOpen, currentCourseId } = this.state;
     return (
       <div>
         <Header />
@@ -118,36 +145,39 @@ class App extends Component {
               }
             </VerticalsContainer>
           }
-          {
-            <ReactCSSTransitionGroup
-              transitionName="slide"
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={500}
-            >
-              {
-                categoriesMenuOpen &&
-                <NavigationMenu
-                  list={displayedCategories}
-                  itemClickHandler={this.handleCategorieClick}
-                  closeHandler={this.toggleCategories}
-                  loading={loadingCategories}
-                  title={'categories'}
-                />
-              }
-              {
-                coursesMenuOpen &&
-                <NavigationMenu
-                  list={displayedCourses}
-                  itemClickHandler={(id) => alert(`navigate to course #${id}...`)}
-                  closeHandler={() => this.toggleCourses(false)}
-                  loading={loadingCourses}
-                  title={'courses'}
-                  type={'nested'}
-                />
-              }
 
-            </ReactCSSTransitionGroup>
-          }
+          <ReactCSSTransitionGroup
+            transitionName="slide"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+          >
+            {
+              categoriesMenuOpen &&
+              <NavigationMenu
+                list={displayedCategories}
+                itemClickHandler={this.handleCategorieClick}
+                closeHandler={this.toggleCategories}
+                loading={loadingCategories}
+                title={'categories'}
+              />
+            }
+            {
+              coursesMenuOpen &&
+              <NavigationMenu
+                list={displayedCourses}
+                itemClickHandler={this.handleCourseClick}
+                closeHandler={() => this.toggleCourses(false)}
+                loading={loadingCourses}
+                title={'courses'}
+                type={'nested'}
+                nestedItems={displayedLessons}
+                courseLessonsOpen={courseLessonsOpen}
+                currentCourseId={currentCourseId}
+              />
+            }
+
+          </ReactCSSTransitionGroup>
+
         </Main>
       </div>
     );

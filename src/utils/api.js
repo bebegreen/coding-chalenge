@@ -1,6 +1,7 @@
 import verticals from '../mock-data/verticals.json';
 import categories from '../mock-data/categories.json';
-import courses from '../mock-data/courses.json'; 
+import courses from '../mock-data/courses.json';
+import lessons from '../mock-data/lessons.json';
 
 class API {
 
@@ -20,12 +21,12 @@ class API {
         const verticalCategories = categories.filter(
           ({ Verticals }) => Verticals === verticalId
         );
-        resolve(verticalCategories); 
+        resolve(verticalCategories);
       }, 1000)
     })
   }
 
-  getCourses(categorieId) { 
+  getCourses(categorieId) {
     return new Promise((resolve) => {
       setTimeout(() => {
         const categorieCourses = courses.filter(
@@ -33,6 +34,17 @@ class API {
         );
         resolve(categorieCourses);
       }, 1000)
+    })
+  }
+
+  getCourseLessons(courseId) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const courseLessons = lessons.filter(
+          ({ Courses }) => Courses === courseId
+        );
+        resolve(courseLessons);
+      }, 0)
     })
   }
 }
