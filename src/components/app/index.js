@@ -16,68 +16,42 @@ class App extends Component {
     this.toggleCourses = this.toggleCourses.bind(this);
     this.handleCategorieClick = this.handleCategorieClick.bind(this);
     this.handleCourseClick = this.handleCourseClick.bind(this);
+    this.getFromServer = this.getFromServer.bind(this); 
   }
   state = {
     loadingVerticals: false,
     loadingCategories: false,
     loadingCourses: false,
     error: false,
-    verticals: null,
+    categoriesMenuOpen: false,
+    coursesMenuOpen: false,
+    displayedVerticals: null,
     displayedCategories: null,
     displayedCourses: null,
     displayedLessons: null,
-    categoriesMenuOpen: false,
-    coursesMenuOpen: false,
     currentCourseId: null
   }
 
   async componentWillMount() {
+    // get all verticals no need for specific id
+    this.getFromServer(null, 'Verticals', API.getVerticals)
+  }
+
+  async getFromServer(id, items, apiFunc) {
     try {
-      this.setState({ loadingVerticals: true })
-      const verticals = await API.getVerticals();
-      this.setState({ verticals, loadingVerticals: false });
+      this.setState({ [`loading${items}`]: true });
+      const resolvedItems = await apiFunc(id);
+      this.setState({ [`displayed${items}`]: resolvedItems, [`loading${items}`]: false })
     }
     catch (err) {
       this.setState({ error: true })
-    }
-  }
-
-  async getCategories(id) {
-    try {
-      this.setState({ loadingCategories: true })
-      const displayedCategories = await API.getCategories(id);
-      this.setState({ displayedCategories, loadingCategories: false })
-    }
-    catch (err) {
-      this.setState({ error: true })
-    }
-  }
-
-  async getCourses(id) {
-    try {
-      this.setState({ loadingCourses: true })
-      const displayedCourses = await API.getCourses(id);
-      this.setState({ displayedCourses, loadingCourses: false })
-    }
-    catch (err) {
-      this.setState({ error: true })
-    }
-  }
-
-  async getLessons(id) {
-    try {
-      const displayedLessons = await API.getCourseLessons(id);
-      this.setState({ displayedLessons });
-    }
-    catch (err) {
-      this.setState({ error: true });
     }
   }
 
   toggleCategories(id) {
     const { categoriesMenuOpen } = this.state;
-    // if menu is opening get categories
-    !categoriesMenuOpen && this.getCategories(id);
+    !categoriesMenuOpen && this.getFromServer(id, 'Categories', API.getCategories);
+    
     this.setState({ categoriesMenuOpen: !categoriesMenuOpen, coursesMenuOpen: false });
   }
 
@@ -87,15 +61,15 @@ class App extends Component {
   }
 
   handleCategorieClick(id) {
-    this.getCourses(id);
-    this.toggleCourses(true)
+    this.getFromServer(id, 'Courses', API.getCourses); 
+    this.toggleCourses(true); 
   }
 
   handleCourseClick(id) {
     const { currentCourseId } = this.state;
     // lessons of course are not opened and a different course was clicked
     if (!currentCourseId || id !== currentCourseId) {
-      this.getLessons(id);
+      this.getFromServer(id, 'Lessons', API.getCourseLessons); 
       this.setState({ currentCourseId: id });
     } else {
       this.setState({ currentCourseId: null });
@@ -103,11 +77,11 @@ class App extends Component {
   }
 
   render() {
-    const { loadingVerticals, error, verticals, categoriesMenuOpen,
+    const { loadingVerticals, error, displayedVerticals, categoriesMenuOpen,
       displayedCategories, coursesMenuOpen, displayedCourses,
       loadingCategories, loadingCourses,
       displayedLessons, currentCourseId } = this.state;
-    
+
     return (
       <div>
         <Header />
@@ -128,10 +102,10 @@ class App extends Component {
           }
 
           {
-            verticals &&
+            displayedVerticals &&
             <VerticalsContainer>
               {
-                verticals.map(({ Id, Name, imageUrl }, i) => (
+                displayedVerticals.map(({ Id, Name, imageUrl }, i) => (
                   <Vertical
                     key={Id}
                     Id={Id}
