@@ -1,5 +1,6 @@
-# Coding Challenge by Binyamin Green
-    yarn install -> yarn start -> localhost:8000
+# Coding Challenge by Binyamin Gr
+checkout my solution at: 
+    https://bebegreen.github.io/react-navigation/
 
 At the solution I provided here I tried to put focus and keeping components as dumb as possible making performance and scalability boost, in addition to a "mobile-first" approach. 
 
